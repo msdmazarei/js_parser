@@ -133,18 +133,49 @@ Rules.
 
 
 {WHITESPACE} : {token,{whitespace,TokenLine,TokenChars}}.
+\[ : {token,{'[',TokenLine,TokenChars}}.
+\] : {token,{']',TokenLine,TokenChars}}.
+\, : {token,{',',TokenLine,TokenChars}}.
+\. : {token,{'.',TokenLine,TokenChars}}.
+\( : {token,{'(',TokenLine,TokenChars}}.
+\) : {token,{')',TokenLine,TokenChars}}.
+\.\.\. : {token, {'...',TokenLine,TokenChars}}.
+= : {token,{'=',TokenLine,TokenChars}}.
+\*= : {token,{'*=',TokenLine,TokenChars}}.
+\/= : {token,{'/=',TokenLine,TokenChars}}.
+\%= : {token,{'%=',TokenLine,TokenChars}}.
+\+= : {token,{'+=',TokenLine,TokenChars}}.
+\-= : {token,{'-=',TokenLine,TokenChars}}.
+<<= : {token,{'<<=',TokenLine,TokenChars}}.
+>>= : {token,{'>>=',TokenLine,TokenChars}}.
+>>>= : {token,{'>>>=',TokenLine,TokenChars}}.
+\&= : {token,{'&=',TokenLine,TokenChars}}.
+\^= : {token,{'^=',TokenLine,TokenChars}}.
+\|= : {token,{'|=',TokenLine,TokenChars}}.
+\*\*= : {token, {'**=',TokenLine,TokenChars}}.
+
+new : {token, {new,TokenLine,TokenChars}}.
+super : {token, {super,TokenLine,TokenChars}}.
+target : {token, {token,TokenLine,TokenChars}}.
+
 {PUNCTUATOR} : {token, {punctuator,TokenLine,TokenChars}}.
 {LINETERMINATORSEQ} : {token,{line_terminator_seq ,TokenLine,TokenChars}}.
 {SingleLineComment} : {token,{single_line_comment,TokenLine,TokenChars}}.
 {SLASH_ASTERISK} : {token, {slash_asterisk,TokenLine,TokenChars}}.
 {ASTERISK_SLASH} : {token , {asterisk_slash, TokenLine,TokenChars}}.
-{RESERVED_WORD} : {token , {reserved_word, TokenLine,TokenChars}}.
+
+this : {token, {this,TokenLine,TokenChars}}.
+{NULL_LITERAL} : {token , {null_literal,TokenLine,TokenChars}}.
+{BOOLEAN_LITERAL} : {token, {boolean_literal,TokenLine,TokenChars}}.
 {NUMERIC_LITERAL} : {token , {numeric_literal,TokenLine,TokenChars}}.
+{StringLiteral} : {token , {string_literal,TokenLine,TokenChars}}.
+{RegularExpressionLiteral} : {token , {regular_expression_literal, TokenLine,TokenChars}}.
+
+
+{RESERVED_WORD} : {token , {reserved_word, TokenLine,TokenChars}}.
 {IDENTIFIER_NAME} : {token, {identifier_name,TokenLine,TokenChars}}.
 {DIV_PUNCTUATOR} : {token , {div_punctuator , TokenLine, TokenChars}}.
 {RIGHT_BRACE_PUNCTUATOR} : {token , {right_brace_punctuator,TokenLine,TokenChars}}.
-{StringLiteral} : {token , {string_literal,TokenLine,TokenChars}}.
-{RegularExpressionLiteral} : {token , {regular_expression, TokenLine,TokenChars}}.
 {Template} : {token , {template , TokenLine,TokenChars}}.
 {TemplateSubstituation} : {token , {template_substituation,TokenLine,TokenChars}}.
 %%{NOT_SPECIAL_CHARS} : {token,{not_special_chars,TokenLine,TokenChars}}.
