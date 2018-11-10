@@ -153,10 +153,41 @@ Rules.
 \^= : {token,{'^=',TokenLine,TokenChars}}.
 \|= : {token,{'|=',TokenLine,TokenChars}}.
 \*\*= : {token, {'**=',TokenLine,TokenChars}}.
-
+\? : {token, {'?',TokenLine,TokenChars}}.
+\: : {token, {':',TokenLine,TokenChars}}.
+&& : {token, {'&&',TokenLine,TokenChars}}.
+\|\| : {token,{'||',TokenLine,TokenChars}}.
+\| : {token, {'|',TokenLine,TokenChars}}.
+\^ : {token, {'^',TokenLine,TokenChars}}.
+\& : {token, {'&',TokenLine,TokenChars}}.
+=== : {token,{'===',TokenLine,TokenChars}}.
+!== : {token,{'!==',TokenLine,TokenChars}}.
+== : {token, {'==',TokenLine,TokenChars}}.
+!= : {token, {'!=',TokenLine,TokenChars}}.
+< : {token,{'<',TokenLine,TokenChars}}.
+> : {token,{'>',TokenLine,TokenChars}}.
+<= : {token,{'<=',TokenLine,TokenChars}}.
+>= : {token,{'>=',TokenLine,TokenChars}}.
+instanceof : {token,{'instanceof',TokenLine,TokenChars}}.
+in : {token,{'in',TokenLine,TokenChars}}.
+<< : {token,{'<<',TokenLine,TokenChars}}.
+>>> : {token,{'>>>',TokenLine,TokenChars}}.
+>> : {token,{'>>',TokenLine,TokenChars}}.
+\+ : {token,{'+',TokenLine,TokenChars}}.
+\- : {token,{'-',TokenLine,TokenChars}}.
+\+\+ : {token,{'++',TokenLine,TokenChars}}.
+\-\- : {token,{'--',TokenLine,TokenChars}}.
+\*\* : {token,{'**',TokenLine,TokenChars}}.
+\* : {token,{'*',TokenLine,TokenChars}}.
+\/ : {token,{'/',TokenLine,TokenChars}}.
+\% : {token,{'%',TokenLine,TokenChars}}.
+\! : {token,{'!',TokenLine,TokenChars}}.
 new : {token, {new,TokenLine,TokenChars}}.
 super : {token, {super,TokenLine,TokenChars}}.
-target : {token, {token,TokenLine,TokenChars}}.
+target : {token, {target,TokenLine,TokenChars}}.
+delete : {token, {delete,TokenLine,TokenChars}}.
+void : {token, {void,TokenLine,TokenChars}}.
+typeof : {token, {typeof,TokenLine,TokenChars}}.
 
 {PUNCTUATOR} : {token, {punctuator,TokenLine,TokenChars}}.
 {LINETERMINATORSEQ} : {token,{line_terminator_seq ,TokenLine,TokenChars}}.

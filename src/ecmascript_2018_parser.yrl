@@ -22,8 +22,23 @@ Nonterminals
     conditional_expression
     async_arrow_function
     assignment_operator
-
-.
+    conditional_expression
+    logical_or_expression
+    logical_and_expression
+    bitwise_or_expression
+    bitwise_xor_expression
+    bitwise_and_expression
+    equality_expression
+    relational_expression
+    shift_expression
+    additive_expression
+    multiplicative_expression
+    multiplicative_operator
+    exponentiation_expression
+    unary_expression
+    await_expression
+    update_expression
+    .
 
 Terminals
     identifier_name
@@ -58,6 +73,38 @@ Terminals
     '^='
     '|='
     '**='
+    '?'
+    ':'
+    '&&'
+    '||'
+    '|'
+    '^'
+    '&'
+    '=='
+    '!='
+    '==='
+    '!=='
+    '<'
+    '>'
+    '<='
+    '>='
+    'instanceof'
+    'in'
+    '<<'
+    '>>>'
+    '>>'
+    '++'
+    '--'
+    '+'
+    '-'
+    '*'
+    '/'
+    '%'
+    '**'
+    delete
+    void
+    typeof
+    '!'
 .
 
 Rootsymbol
@@ -149,6 +196,77 @@ assignment_operator -> '&=' : {assignment_operator,'$1'}.
 assignment_operator -> '^=' : {assignment_operator,'$1'}.
 assignment_operator -> '|=' : {assignment_operator,'$1'}.
 assignment_operator -> '**=' : {assignment_operator,'$1'}.
+
+
+conditional_expression -> logical_or_expression : {conditional_expression,'$1'}.
+conditional_expression -> logical_or_expression '?' assignment_expression ':' assignment_expression : {conditional_expression,'$1','$2','$3','$5'}.
+
+logical_or_expression -> logical_and_expression : {logical_or_expression,'$1'}.
+logical_or_expression -> logical_or_expression '||' logical_and_expression : {logical_or_expression,'$1','$2','$3'}.
+
+logical_and_expression -> bitwise_or_expression : {logical_and_expression,'$1'}.
+logical_and_expression -> logical_and_expression '&&' bitwise_or_expression : {logical_and_expression,'$1','$2','$3'}.
+
+bitwise_or_expression -> bitwise_xor_expression : {bitwise_or_expression,'$1'}.
+bitwise_or_expression -> bitwise_or_expression '|' bitwise_xor_expression : {bitwise_or_expression,'$1','$2','$3'}.
+
+bitwise_xor_expression -> bitwise_and_expression : {bitwise_xor_expression,'$1'}.
+bitwise_xor_expression -> bitwise_xor_expression '^' bitwise_and_expression : {bitwise_xor_expression,'$1','$2','$3'}.
+
+bitwise_and_expression -> equality_expression : {bitwise_and_expression, '$1'}.
+bitwise_and_expression -> bitwise_and_expression '&' equality_expression : {bitwise_and_expression,'$1','$2','$3'}.
+
+
+equality_expression -> relational_expression : '$1'.
+equality_expression -> equality_expression '==' relational_expression : {equality_expression,'$1','$2','$3'}.
+equality_expression -> equality_expression '!=' relational_expression : {equality_expression,'$1','$2','$3'}.
+equality_expression -> equality_expression '===' relational_expression : {equality_expression,'$1','$2','$3'}.
+equality_expression -> equality_expression '!==' relational_expression : {equality_expression,'$1','$2','$3'}.
+
+
+relational_expression -> shift_expression : '$1'.
+relational_expression -> relational_expression '<' shift_expression : {relational_expression,'$1','$2','$3'}.
+relational_expression -> relational_expression '>' shift_expression : {relational_expression,'$1','$2','$3'}.
+relational_expression -> relational_expression '<=' shift_expression : {relational_expression,'$1','$2','$3'}.
+relational_expression -> relational_expression '>=' shift_expression : {relational_expression,'$1','$2','$3'}.
+relational_expression -> relational_expression instanceof shift_expression : {relational_expression,'$1','$2','$3'}.
+relational_expression -> relational_expression in shift_expression : {relational_expression,'$1','$2','$3'}.
+
+shift_expression -> additive_expression : '$1'.
+shift_expression -> shift_expression  '<<' additive_expression : {shift_expression,'$1','$2','$3'}.
+shift_expression -> shift_expression  '>>' additive_expression : {shift_expression,'$1','$2','$3'}.
+shift_expression -> shift_expression  '>>>' additive_expression : {shift_expression,'$1','$2','$3'}.
+
+additive_expression -> multiplicative_expression : '$1'.
+additive_expression -> additive_expression '+' multiplicative_expression : {additive_expression,'$1','$2','$3'}.
+additive_expression -> additive_expression '-' multiplicative_expression : {additive_expression,'$1','$2','$3'}.
+
+multiplicative_expression -> exponentiation_expression : '$1'.
+multiplicative_expression -> multiplicative_expression multiplicative_operator exponentiation_expression : {multiplicative_expression,'$1','$2','$3'}.
+
+multiplicative_operator -> '*' : '$1'.
+multiplicative_operator -> '/' : '$1'.
+multiplicative_operator -> '%' : '$1'.
+
+
+exponentiation_expression -> unary_expression : '$1'.
+exponentiation_expression -> unary_expression '**' exponentiation_expression : {exponentiation_expression,'$1','$2','$3'}.
+
+unary_expression -> update_expression : '$1'.
+unary_expression -> delete unary_expression : {unary_expression,'$1','$2'}.
+unary_expression -> void unary_expression : {unary_expression,'$1','$2'}.
+unary_expression -> typeof unary_expression : {unary_expression,'$1','$2'}.
+unary_expression -> '!' unary_expression : {unary_expression,'$1','$2'}.
+unary_expression -> '+' unary_expression : {unary_expression,'$1','$2'}.
+unary_expression -> '-' unary_expression : {unary_expression,'$1','$2'}.
+unary_expression -> await_expression : '$1'.
+
+update_expression -> left_hand_side_expression : '$1'.
+update_expression -> left_hand_side_expression '++' : {update_expression,'$1','$2'}.
+update_expression -> left_hand_side_expression '--' : {update_expression,'$1','$2'}.
+update_expression -> '++' unary_expression : {update_expression,'$1','$2'}.
+update_expression -> '--' unary_expression : {update_expression,'$1','$2'}.
+
 
 Erlang code.
 
