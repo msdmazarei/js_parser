@@ -22,7 +22,6 @@ Nonterminals
     conditional_expression
     async_arrow_function
     assignment_operator
-    conditional_expression
     logical_or_expression
     logical_and_expression
     bitwise_or_expression
@@ -38,6 +37,29 @@ Nonterminals
     unary_expression
     await_expression
     update_expression
+    async_arrow_binding_identifier
+    async_concise_body
+    async_function_body
+    binding_identifier
+    identifier
+    arrow_parameters
+    cover_parenthesized_expression_and_arrow_parameter_list
+    binding_pattern
+    object_binding_pattern
+    binding_rest_property
+    binding_property_list
+    binding_property
+    single_name_binding
+    initializer
+    binding_rest_element
+    array_binding_pattern
+    binding_element_list
+    binding_elision_element
+    if_statement
+    expression_statement
+    empty_statement
+    statement
+
     .
 
 Terminals
@@ -105,6 +127,13 @@ Terminals
     void
     typeof
     '!'
+    async
+    '=>'
+    '{'
+    '}'
+    if
+    else
+    ';'
 .
 
 Rootsymbol
@@ -267,6 +296,108 @@ update_expression -> left_hand_side_expression '--' : {update_expression,'$1','$
 update_expression -> '++' unary_expression : {update_expression,'$1','$2'}.
 update_expression -> '--' unary_expression : {update_expression,'$1','$2'}.
 
+cover_call_expression_and_async_arrow_head -> member_expression arguments : {cover_call_expression_and_async_arrow_head, '$1','$2'}.
+
+async_arrow_function -> async async_arrow_binding_identifier '=>' async_concise_body : {async_arrow_function,'$2','$4'}.
+async_arrow_function -> cover_call_expression_and_async_arrow_head '=>' async_concise_body : {async_arrow_function,'$1','$2'}.
+
+async_concise_body -> assignment_expression '{' async_function_body '}' : {async_concise_body,'$1','$3'}.
+
+async_arrow_binding_identifier -> binding_identifier : '$1'.
+
+cover_call_expression_and_async_arrow_head -> member_expression arguments : {cover_call_expression_and_async_arrow_head, '$1','$2'}.
+
+binding_identifier -> identifier : '$1'.
+
+identifier -> identifier_name : '$1'.
+
+arrow_function -> arrow_parameters '=>' concise_body : {arrow_function,'$1','$3'}.
+
+arrow_parameters -> binding_identifier:'$1'.
+arrow_parameters -> cover_parenthesized_expression_and_arrow_parameter_list: '$1'.
+
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' expression ')' : {'$1','$2'}.
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' expression ',' ')' : {'$1','$2'}.
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' ')' : {'$1',empty}.
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' '...' binding_identifier ')': {'$1','$2','$3'}.
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' '...' binding_pattern ')' : {'$1','$2','$3'}.
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' expression ',' '...' binding_identifier ')' : {'$1','$2','$3','$4'}.
+cover_parenthesized_expression_and_arrow_parameter_list -> '(' expression ',' '...' binding_pattern ')' :  : {'$1','$2','$3','$4'}.
+
+binding_pattern -> object_binding_pattern : '$1'.
+binding_pattern -> array_binding_pattern : '$1'.
+
+object_binding_pattern -> '{' '}' : {'$1',empty}.
+object_binding_pattern -> '{' binding_rest_property '}' : {'$1','$2'}.
+object_binding_pattern -> '{' binding_property_list '}' : {'$1','$2'}.
+object_binding_pattern -> '{' binding_property_list ',' binding_rest_property '}' : {'$1','$2','$3','$4'}.
+
+binding_rest_property -> '...' binding_identifier : {'$1','$2'}.
+
+binding_property_list -> binding_property : '$1'.
+binding_property_list -> binding_property_list ',' binding_property : {'$1','$2','$3'}.
+
+binding_property -> single_name_binding : '$1'.
+binding_property -> binding_pattern initializer : {binding_property,'$1','$2'}.
+
+single_name_binding -> binding_identifier : '$1'.
+single_name_binding -> binding_identifier initializer : {single_name_binding,'$1','$2'}.
+
+binding_rest_element -> '...' binding_identifier : {binding_rest_element,'$1','$2'}.
+binding_rest_element -> '...' binding_pattern : {binding_rest_element,'$1','$2'}.
+
+initializer -> '=' assignment_expression : {initializer,'$1','$2'}.
+
+array_binding_pattern -> '[' ']' : {array,[]}.
+array_binding_pattern -> '[' elision ']' : {array,['$2']}.
+array_binding_pattern -> '[' binding_rest_element ']' : {array, '$2'}.
+array_binding_pattern -> '[' elision ',' binding_rest_element ']' : {array,['$2','$4']}.
+array_binding_pattern -> '[' binding_element_list ']' : {array,['$1']}.
+array_binding_pattern -> '[' binding_element_list ',' elision ']' : {array ,['$1','$3']}.
+array_binding_pattern -> '[' binding_element_list ',' binding_rest_element ']' : {array,['$2','$4']}.
+array_binding_pattern -> '[' binding_element_list ',' elision ',' binding_rest_element ']' : {array,['$2','$4','$6']}.
+
+binding_rest_property -> '...' binding_identifier : {'$1','$2'}.
+
+binding_property_list -> binding_property : '$1'.
+binding_property_list -> binding_property_list ',' binding_property : {'binding_property_list','$1','$3'}.
+
+binding_element_list -> binding_elision_element : '$1'.
+binding_element_list -> binding_element_list ',' binding_elision_element : {binding_property_list,'$1,'$3'}.
+
+binding_elision_element -> binding_element : '$1'.
+binding_elision_element -> elision binding_element : {binding_elision_element,'$1','$2'}.
+
+binding_property -> single_name_binding : '$1'.
+binding_property -> property_name ':' binding_element : {binding_property,'$1','$3'}.
+
+binding_element -> single_name_binding : '$1'.
+binding_element -> binding_pattern : '$1'.
+binding_element -> binding_pattern initializer : {binding_element,'$1','$2'}.
+
+single_name_binding -> binding_identifier : '$1'.
+single_name_binding -> binding_identifier initializer : {single_name_binding,'$1','$2'}.
+
+binding_rest_element -> '...' binding_identifier : {'$1','$2}.
+binding_rest_element -> '...' binding_pattern : {'$1','$2'}.
+
+empty_statement -> ';' :{empty_statement,'$1'}.
+
+
+expression_statement -> expression ';' : {expression_statement,'$1'}.
+
+if_statement -> if '(' expression ')' statement else statement  : {ifelse,'$3','$5','$7'}.
+if_statement -> if '(' expression ')' statement : {if, '$3','$5'}.
+
+iteration_statement -> do statement while '(' expression ')' ';' : {dowhile,'$2','$5'}.
+iteration_statement -> while '(' expression ')' statement :{while,'$3','$5'}.
+iteration_statement -> for '(' expression ';' expression ';' expression  ')' statement : {for,'$3','$5','$7','$9'}.
+iteration_statement -> for '(' ';' expression ';' expression  ')' statement : {for,null,'$4','$6','$8'}.
+iteration_statement -> for '(' expression ';'  ';' expression  ')' statement : {for, '$3' , null,'$6','$8'}.
+iteration_statement -> for '(' expression ';' expression ';'  ')' statement : {for,'$3','$5',null,'$8'}.
+iteration_statement -> for '('  ';'  ';' expression  ')' statement : {for,null,null,'$5','$7'}.
+iteration_statement -> for '(' expression ';'  ';'   ')' statement : {for,'$3',null,null,'$7'}.
+iteration_statement -> for '('  ';'  ';'  ')' statement : {for,null,null,null,'$6'}.
 
 Erlang code.
 

@@ -140,6 +140,9 @@ Rules.
 \( : {token,{'(',TokenLine,TokenChars}}.
 \) : {token,{')',TokenLine,TokenChars}}.
 \.\.\. : {token, {'...',TokenLine,TokenChars}}.
+=> : {token,{'=>',TokenLine,TokenChars}}.
+\{ : {token,{'{',TokenLine,TokenChars}}.
+\} : {token,{'}',TokenLine,TokenChars}}.
 = : {token,{'=',TokenLine,TokenChars}}.
 \*= : {token,{'*=',TokenLine,TokenChars}}.
 \/= : {token,{'/=',TokenLine,TokenChars}}.
@@ -188,6 +191,14 @@ target : {token, {target,TokenLine,TokenChars}}.
 delete : {token, {delete,TokenLine,TokenChars}}.
 void : {token, {void,TokenLine,TokenChars}}.
 typeof : {token, {typeof,TokenLine,TokenChars}}.
+async : {token,{async,TokenLine,TokenChars}}.
+if : {token,{'if',TokenLine,TokenChars}}.
+else : {token, {else,TokenLine,TokenChars}}.
+do : {token, {do,TokenLine,TokenChars}}.
+while : {token, {while,TokenLine,TokenChars}}.
+for : {token , {for, TokenLine,TokenChars}}.
+var : {token , {var, TokenLine,TokenChars}}.
+
 
 {PUNCTUATOR} : {token, {punctuator,TokenLine,TokenChars}}.
 {LINETERMINATORSEQ} : {token,{line_terminator_seq ,TokenLine,TokenChars}}.
