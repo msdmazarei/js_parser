@@ -59,7 +59,28 @@ Nonterminals
     expression_statement
     empty_statement
     statement
-
+    iteration_statement
+    concise_body
+    for_declaration
+    for_pattern
+for_binding
+continue_statement
+break_statement
+return_statement
+with_statement
+case_block
+switch_statement
+case_clauses
+case_clause
+default_clause
+labelled_statement
+labelled_item
+throw_statement
+try_statement
+catchb
+catch_parameter
+finallyb
+debugger_statement
     .
 
 Terminals
@@ -134,7 +155,24 @@ Terminals
     if
     else
     ';'
-.
+    do
+    while
+    for
+    var
+    of
+    continue
+    break
+    return
+    with
+    switch
+    case
+    default
+    try
+    catch
+    finally
+    throw
+    debugger
+    .
 
 Rootsymbol
    root
@@ -398,6 +436,74 @@ iteration_statement -> for '(' expression ';' expression ';'  ')' statement : {f
 iteration_statement -> for '('  ';'  ';' expression  ')' statement : {for,null,null,'$5','$7'}.
 iteration_statement -> for '(' expression ';'  ';'   ')' statement : {for,'$3',null,null,'$7'}.
 iteration_statement -> for '('  ';'  ';'  ')' statement : {for,null,null,null,'$6'}.
+iteration_statement -> for '(' var variable_declaration_list ';' expression ';' expression ')' statement : {for,var,'$4','$6','$8','$9'}.
+iteration_statement -> for '(' var variable_declaration_list ';' ';' expression ')' statement : {for,var,'$4',null,'$7','$9'}.
+iteration_statement -> for '(' var variable_declaration_list ';' expression ';'  ')' statement : {for,var,'$4','$6',null,'$9'}
+iteration_statement -> for '(' var variable_declaration_list ';'  ';'  ')' statement : {for,var,'$4',null,null,'$8'}.
+iteration_statement -> for '(' lexical_declaration expression ';' expression ')' statement : {for,lex,'$3','$4','$6','$8'}.
+iteration_statement -> for '(' lexical_declaration  ';' expression ')' statement : {for,lex,'$3',null,'$5','$7'}.
+iteration_statement -> for '(' lexical_declaration expression ';'  ')' statement : {for,lex,'$3','$4',null,'$7'}.
+iteration_statement -> for '(' lexical_declaration  ';'  ')' statement : {for,lex,'$3',null,null,'$6'}.
+iteration_statement -> for '(' left_hand_side_expression in expression ')' statement : {for,in,'$3','$5','$6'}.
+iteration_statement -> for '(' var for_binding in  expression ')' statement : {for,var_in,'$4','$6','$8'}.
+iteration_statement -> for '(' for_declaration in expression ')' statement : {for,in,'$3','$5','$6'}.
+iteration_statement -> for '(' left_hand_side_expression of assignment_expression ')' statement : {for,of,'$3','$5','$7'}.
+iteration_statement -> for '(' var for_binding of assignment_expression ')' statement : {for,of,'$4','$6','$8'}.
+iteration_statement -> for '(' for_declaration of assignment_expression ')' statement : {for,of,'$3','$5','$7'}.
+
+
+for_declaration -> let_or_const for_binding : {for_decl,'$1','$2'}.
+for_binding -> binding_identifier : '$1'.
+for_binding -> binding_pattern : '$1'.
+
+continue_statement -> continue ';' : {continue, null}.
+continue_statement -> continue label_identifier : {continue,'$2'}.
+
+break_statement -> break ';' : {break , null}.
+break_statement -> break label_identifier : {break, '$1'}.
+
+return_statement -> return ';' : {return,null}.
+return_statement -> return expression : {return ,'$1'}.
+
+with_statement -> with '(' expression ')' statement : {with,'$3','$5'}.
+
+switch_statement -> switch '(' expression ')' case_block : {switch,'$3','$5'}.
+
+case_block -> '{' '}' : {case_block,null}.
+case_block -> '{' case_clauses '}' : {case_block, '$2' }.
+case_block -> '{' case_clauses default_clause '}' : {case_block, '$2','$3'}.
+case_block -> '{' case_clauses default_clause case_clauses '}' : {case_block,'$2','$3','$4'}.
+
+case_clauses -> case_clause : {case_clauses,'$1'}.
+case_clauses -> case_clauses case_clause : {case_clauses,'$1','$2'}.
+
+case_clause -> case expression ':' : {case_clause,'$1',null}.
+case_clause -> case expression ':' statement_list : {case_clause,'$1','$3'}.
+
+default_clause -> default ':' : {default_clause , null}.
+default_clause -> default ':' statement_list : {default_clause,'$3'}.
+
+labelled_statement -> label_identifier ':' labelled_item : {label_statement,'$1','$2'}.
+
+labelled_item -> statement : '$1'.
+labelled_item -> function_declaration : '$1'.
+
+throw_statement -> throw expression ';' : {throw, '$2'}.
+
+try_statement -> try block catchb : {try,'$2','$3'}.
+try_statement -> try block finallyb : {try,'$2','$3'}.
+try_statement -> try block catchb finallyb : {try,'$2','$3','$4'}.
+
+catchb -> catch '(' catch_parameter ')' block : {catch, '$3','$5'}.
+
+finallyb -> finally block : {finally,'$2'}.
+
+catch_parameter -> binding_identifier : '$1'.
+catch_parameter -> binding_pattern : '$1'.
+
+debugger_statement -> debugger ';' : {debugger}.
+
+
 
 Erlang code.
 

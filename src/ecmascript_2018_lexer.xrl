@@ -198,7 +198,19 @@ do : {token, {do,TokenLine,TokenChars}}.
 while : {token, {while,TokenLine,TokenChars}}.
 for : {token , {for, TokenLine,TokenChars}}.
 var : {token , {var, TokenLine,TokenChars}}.
-
+of : {token,{var,TokenLine,TokenChars}}.
+continue : {token,{continue,TokenLine,TokenChars}}.
+break : {token, {break,TokenLine,TokenChars}}.
+return : {token , {return , TokenLine,TokenChars}}.
+with : {token , {with, TokenLine,TokenChars}}.
+switch : {token, {switch, TokenLine,TokenChars}}.
+case : {token , {'case', TokenLine,TokenChars}}.
+default : {token , {default, TokenLine,TokenChars}}.
+throw : {token , {throw, TokenLine,TokenChars}}.
+try : {token, {'try',TokenLine,TokenChars}}.
+catch : {token, {'catch',TokenLine,TokenChars}}.
+finally : {token , {finally, TokenLine,TokenChars}}.
+debugger : {token, {debugger,TokenLine,TokenChars}}.
 
 {PUNCTUATOR} : {token, {punctuator,TokenLine,TokenChars}}.
 {LINETERMINATORSEQ} : {token,{line_terminator_seq ,TokenLine,TokenChars}}.
